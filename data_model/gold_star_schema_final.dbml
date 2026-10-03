@@ -1,0 +1,101 @@
+// ============================================================
+// DIMENSIONS
+// ============================================================
+
+Table dim_date {
+  DateKey int [pk]
+  FullDate date
+  Day int
+  Month int
+  MonthName varchar
+  Quarter int
+  Year int
+  DayOfWeek varchar
+  IsWeekend boolean
+}
+
+Table dim_customers {
+  CustomerID bigint [pk]
+  FirstName varchar
+  LastName varchar
+  Gender varchar
+  Email varchar
+  is_email_generated varchar
+  City varchar
+  Country varchar
+  RegistrationDate date
+}
+
+Table dim_employees {
+  EmployeeID int [pk]
+  ManagerID int
+  DepartmentID int
+  DepartmentName varchar
+  FirstName varchar
+  LastName varchar
+  Gender varchar
+  Salary decimal
+  HireDate date
+}
+
+Table dim_products {
+  ProductID bigint [pk]
+  ProductName varchar
+  Brand varchar
+  CategoryID int
+  CategoryName varchar
+  MainCategory varchar
+  Price decimal
+  Cost decimal
+  StockType varchar
+  warranty_months int
+  color varchar
+}
+
+Table dim_shippers {
+  ShipperID int [pk]
+  CompanyName varchar
+  ShipperType varchar
+}
+
+// ============================================================
+// FACT TABLES (3 separate grains -- see fan-out discussion)
+// ============================================================
+
+// Grain: one row per product per order
+Table fact_order_details {
+  OrderDetailID bigint [pk]
+  OrderID bigint
+  DateKey int [ref: > dim_date.DateKey]
+  CustomerID bigint [ref: > dim_customers.CustomerID]
+  EmployeeID int [ref: > dim_employees.EmployeeID]
+  ProductID bigint [ref: > dim_products.ProductID]
+  OrderStatus varchar
+  Quantity int
+  UnitPrice decimal
+  Discount decimal
+  TotalSales decimal
+}
+
+// Grain: one row per payment
+Table fact_payments {
+  PaymentID bigint [pk]
+  OrderID bigint
+  DateKey int [ref: > dim_date.DateKey]
+  CustomerID bigint [ref: > dim_customers.CustomerID]
+  PaymentMethod varchar
+  Amount decimal
+  PaymentStatus varchar
+}
+
+// Grain: one row per shipment
+Table fact_shipments {
+  ShipmentID bigint [pk]
+  OrderID bigint
+  ShipDateKey int [ref: > dim_date.DateKey]
+  DeliveryDateKey int [ref: > dim_date.DateKey]
+  CustomerID bigint [ref: > dim_customers.CustomerID]
+  ShipperID int [ref: > dim_shippers.ShipperID]
+  DaysToArrive int
+  DeliveryStatus varchar
+}
