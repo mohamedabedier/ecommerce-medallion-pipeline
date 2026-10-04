@@ -106,7 +106,7 @@ ecommerce-medallion-pipeline/
 ## 📖 Full documentation
 
 Step-by-step write-ups with screenshots for each platform are linked
-from [`docs/README.md`](docs/links.md).
+from [`docs/README.md`](docs/README.md).
 
 ---
 
