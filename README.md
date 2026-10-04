@@ -85,7 +85,7 @@ unconfirmed ones**, so Finance and Operations can trust what they see.
 ecommerce-medallion-pipeline/
 ├── README.md
 ├── docs/
-│   └── links.md                  → full write-ups (Notion, one per platform)
+│   └── README.md                  → full write-ups (Notion, one per platform)
 ├── data_generator/
 │   └── incremental_generator.py  → produces the dirty, incremental source data
 ├── data_model/
@@ -106,7 +106,7 @@ ecommerce-medallion-pipeline/
 ## 📖 Full documentation
 
 Step-by-step write-ups with screenshots for each platform are linked
-from [`docs/links.md`](docs/links.md).
+from [`docs/README.md`](docs/links.md).
 
 ---
 
